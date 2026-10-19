@@ -45,94 +45,86 @@
   <main class="main-content">
     <div class="container">
       
-      <!-- Qidiruv va Filtrlash -->
-      <section class="controls-section">
-        <div class="search-box">
-          <i data-lucide="search" class="search-icon"></i>
-          <input type="text" id="searchInput" placeholder="Havolalarni qidirish (nomi, tavsifi yoki sayt)...">
-          <button class="clear-btn" id="clearSearchBtn" style="display: none;">
-            <i data-lucide="x"></i>
+      <!-- Asosiy Navigatsiya Tablari -->
+      <nav class="main-tabs-nav">
+        <button class="main-tab-btn active" id="tabLinksBtn">
+          <i data-lucide="link-2"></i>
+          <span>Foydali Havolalar</span>
+          <span class="tab-badge" id="tabLinksBadge">0</span>
+        </button>
+        <button class="main-tab-btn" id="tabCodesBtn">
+          <i data-lucide="code-2"></i>
+          <span>Dastur Kodlari</span>
+          <span class="tab-badge" id="tabCodesBadge">0</span>
+        </button>
+      </nav>
+
+      <!-- 1-BO'LIM: HAVOLALAR KO'RINISHI (STANDART) -->
+      <div class="tab-view-content" id="linksView">
+        <!-- Qidiruv va Filtrlash -->
+        <section class="controls-section">
+          <div class="search-box">
+            <i data-lucide="search" class="search-icon"></i>
+            <input type="text" id="searchInput" placeholder="Havolalarni qidirish (nomi, tavsifi yoki sayt)...">
+            <button class="clear-btn" id="clearSearchBtn" style="display: none;">
+              <i data-lucide="x"></i>
+            </button>
+          </div>
+
+          <div class="categories" id="categoryTabs">
+            <button class="cat-pill active" data-category="all">Barchasi</button>
+            <button class="cat-pill" data-category="dasturlash">Dasturlash</button>
+            <button class="cat-pill" data-category="onlayn-muhit">Onlayn Muhitlar</button>
+            <button class="cat-pill" data-category="foydali">Foydali Saytlar</button>
+          </div>
+        </section>
+
+        <!-- Havolalar Ro'yxati / Grid -->
+        <section class="links-section">
+          <div class="links-header">
+            <span class="links-count" id="linksCount">Jami: 0 ta havola</span>
+            <span class="links-hint">💡 Havola ustiga bosib saytga to'g'ridan-to'g'ri o'ting</span>
+          </div>
+
+          <div class="links-grid" id="linksGrid">
+            <!-- JS orqali kartochkalar yaratiladi -->
+          </div>
+
+          <!-- Havola topilmasa -->
+          <div class="empty-state" id="emptyState" style="display: none;">
+            <span class="empty-icon">🔍</span>
+            <h3>Hech qanday havola topilmadi</h3>
+            <p>Boshqa so'z bilan qidirib ko'ring yoki yangi havola qo'shing.</p>
+          </div>
+        </section>
+      </div>
+
+      <!-- 2-BO'LIM: ALOHIDA DASTUR KODLARI BO'LIMI -->
+      <div class="tab-view-content" id="codesView" style="display: none;">
+        <div class="codes-section-header">
+          <div class="codes-header-info">
+            <h2>💻 Dastur Kodlari & Vazifalar</h2>
+            <p>O'qituvchi tomonidan tayyorlangan dars kodlari. Kodni osongina nusxa oling va ishlatib ko'ring!</p>
+          </div>
+          <!-- Kod yuklash tugmasi -->
+          <button class="add-code-btn" id="openAddCodeModalBtn">
+            <i data-lucide="plus-circle"></i>
+            <span>Yangi kod yuklash</span>
           </button>
         </div>
 
-        <div class="categories" id="categoryTabs">
-          <button class="cat-pill active" data-category="all">Barchasi</button>
-          <button class="cat-pill" data-category="dasturlash">Dasturlash</button>
-          <button class="cat-pill" data-category="onlayn-muhit">Onlayn Muhitlar</button>
-          <button class="cat-pill" data-category="foydali">Foydali Saytlar</button>
-        </div>
-      </section>
-
-      <!-- O'qituvchi tomonidan yuklangan Kod qismi (O'quvchilar faqat nusxa ola oladi, o'zgartira olmaydi) -->
-      <section class="shared-code-section" id="sharedCodeSection">
-        <div class="code-box-card">
-          <div class="code-header">
-            <div class="code-title-wrap">
-              <div class="code-icon-badge">
-                <i data-lucide="code-2"></i>
-              </div>
-              <div>
-                <h3 id="codeTitleDisplay">🐍 Dars Kodi & Vazifa</h3>
-                <p id="codeDescDisplay">O'qituvchi tomonidan taqdim etilgan kod. Ko'chirib oling va Sandbox'da ishga tushiring!</p>
-              </div>
-            </div>
-
-            <div class="code-actions">
-              <button class="copy-code-btn" id="copySharedCodeBtn" title="Kodni nusxalash">
-                <i data-lucide="copy" id="copyIcon"></i>
-                <span id="copyBtnText">Kodni nusxalash</span>
-              </button>
-              
-              <!-- Faqat Admin ko'radigan va o'zgartira oladigan tugma -->
-              <button class="edit-code-btn" id="editCodeBtn" style="display: none;" title="Kodni tahrirlash (Faqat O'qituvchi)">
-                <i data-lucide="edit-3"></i>
-                <span>Kodni o'zgartirish</span>
-              </button>
-            </div>
-          </div>
-
-          <!-- Kod ko'rinishi (o'quvchilar o'zgartira olmaydi - read-only) -->
-          <div class="code-content-wrapper">
-            <div class="code-lang-tag">
-              <span class="lang-dot"></span>
-              <span id="codeLangLabel">Python</span>
-            </div>
-            <pre class="code-pre"><code id="codeTextDisplay" class="code-block"># Python Turtle namunasi
-import turtle
-
-t = turtle.Turtle()
-t.shape("turtle")
-t.color("forestgreen")
-t.speed(3)
-
-# Yulduzcha chizish
-for _ in range(5):
-    t.forward(120)
-    t.right(144)
-
-turtle.done()</code></pre>
-          </div>
-        </div>
-      </section>
-
-      <!-- Havolalar Ro'yxati / Grid -->
-      <section class="links-section">
-        <div class="links-header">
-          <span class="links-count" id="linksCount">Jami: 0 ta havola</span>
-          <span class="links-hint">💡 Havola ustiga bosib saytga to'g'ridan-to'g'ri o'ting</span>
+        <!-- Kodlar ro'yxati -->
+        <div class="codes-list" id="codesList">
+          <!-- JS orqali dastur kodlari kartochkalari chiqariladi -->
         </div>
 
-        <div class="links-grid" id="linksGrid">
-          <!-- JS orqali kartochkalar yaratiladi -->
+        <!-- Kodlar bo'sh bo'lsa -->
+        <div class="empty-state" id="codesEmptyState" style="display: none;">
+          <span class="empty-icon">📁</span>
+          <h3>Hozircha dastur kodi mavjud emas</h3>
+          <p>O'qituvchi tomonidan yangi dars kodlari yuklangach, bu yerda ko'rinadi.</p>
         </div>
-
-        <!-- Havola topilmasa -->
-        <div class="empty-state" id="emptyState" style="display: none;">
-          <span class="empty-icon">🔍</span>
-          <h3>Hech qanday havola topilmadi</h3>
-          <p>Boshqa so'z bilan qidirib ko'ring yoki yangi havola qo'shing.</p>
-        </div>
-      </section>
+      </div>
 
     </div>
   </main>

@@ -749,74 +749,210 @@ label {
   gap: 6px;
 }
 
-/* ----------------- DARSNING KODI SECTION ----------------- */
-.shared-code-section {
-  margin-bottom: 35px;
+/* ----------------- ASOSIY NAVIGATSIYA TABLARI ----------------- */
+.main-tabs-nav {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 30px;
+  background: rgba(18, 24, 38, 0.7);
+  padding: 6px;
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  width: fit-content;
+  backdrop-filter: blur(12px);
 }
 
-.code-box-card {
+.main-tab-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  font-size: 0.95rem;
+  font-weight: 600;
+  padding: 10px 20px;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.main-tab-btn svg {
+  width: 18px;
+  height: 18px;
+}
+
+.main-tab-btn:hover {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.main-tab-btn.active {
+  background: #6366f1;
+  color: #fff;
+  box-shadow: 0 4px 14px rgba(99, 102, 241, 0.35);
+}
+
+.tab-badge {
+  background: rgba(255, 255, 255, 0.16);
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 999px;
+}
+
+/* ----------------- ALOHIDA DASTUR KODLARI BO'LIMI ----------------- */
+.codes-section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 28px;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.codes-header-info h2 {
+  font-size: 1.55rem;
+  font-weight: 800;
+  margin-bottom: 6px;
+  color: #fff;
+}
+
+.codes-header-info p {
+  color: var(--text-muted);
+  font-size: 0.94rem;
+}
+
+.add-code-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%);
+  color: #fff;
+  border: none;
+  padding: 12px 22px;
+  border-radius: 12px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(14, 165, 233, 0.35);
+  transition: all 0.2s ease;
+}
+
+.add-code-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(14, 165, 233, 0.5);
+}
+
+.add-code-btn svg {
+  width: 18px;
+  height: 18px;
+}
+
+/* Kod kartochkalari ro'yxati */
+.codes-list {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.code-item-card {
   background: var(--card-bg);
   border: 1px solid var(--card-border);
   border-radius: 20px;
   padding: 24px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
   backdrop-filter: blur(14px);
-  transition: border-color 0.25s ease;
+  transition: border-color 0.25s ease, transform 0.2s ease;
 }
 
-.code-box-card:hover {
-  border-color: rgba(99, 102, 241, 0.3);
+.code-item-card:hover {
+  border-color: rgba(99, 102, 241, 0.35);
 }
 
-.code-header {
+.code-item-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 16px;
-  margin-bottom: 20px;
+  margin-bottom: 14px;
   flex-wrap: wrap;
+  gap: 12px;
 }
 
-.code-title-wrap {
+.code-item-title-wrap {
   display: flex;
   align-items: center;
-  gap: 14px;
+  gap: 12px;
 }
 
-.code-icon-badge {
-  width: 48px;
-  height: 48px;
-  background: linear-gradient(135deg, rgba(56, 189, 248, 0.2), rgba(99, 102, 241, 0.2));
-  border: 1px solid rgba(56, 189, 248, 0.35);
+.code-item-icon {
+  width: 44px;
+  height: 44px;
+  background: rgba(14, 165, 233, 0.15);
+  border: 1px solid rgba(14, 165, 233, 0.3);
   border-radius: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
+  color: #38bdf8;
   flex-shrink: 0;
 }
 
-.code-icon-badge svg {
-  width: 24px;
-  height: 24px;
-  color: #38bdf8;
+.code-item-icon svg {
+  width: 22px;
+  height: 22px;
 }
 
-.code-title-wrap h3 {
-  font-size: 1.25rem;
+.code-item-title {
+  font-size: 1.2rem;
   font-weight: 700;
   color: #fff;
-  margin-bottom: 4px;
 }
 
-.code-title-wrap p {
-  font-size: 0.88rem;
+.code-item-lang {
+  background: rgba(16, 185, 129, 0.15);
+  color: #34d399;
+  border: 1px solid rgba(16, 185, 129, 0.3);
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 3px 9px;
+  border-radius: 6px;
+  text-transform: uppercase;
+}
+
+.code-item-desc {
   color: var(--text-muted);
+  font-size: 0.92rem;
+  line-height: 1.5;
+  margin-bottom: 16px;
 }
 
-.code-actions {
+.code-pre-box {
+  position: relative;
+  background: #090d16;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  overflow: hidden;
+  margin-bottom: 18px;
+}
+
+.code-pre-box pre {
+  margin: 0;
+  padding: 18px 20px;
+  overflow-x: auto;
+  font-family: 'Consolas', 'Courier New', monospace;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: #e2e8f0;
+  user-select: text;
+}
+
+.code-item-actions {
   display: flex;
-  gap: 10px;
+  justify-content: space-between;
   align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
 }
 
 .copy-code-btn {
@@ -826,7 +962,7 @@ label {
   background: linear-gradient(135deg, #10b981 0%, #059669 100%);
   color: #fff;
   border: none;
-  padding: 10px 18px;
+  padding: 10px 20px;
   border-radius: 10px;
   font-size: 0.92rem;
   font-weight: 600;
@@ -845,75 +981,59 @@ label {
   height: 17px;
 }
 
-.edit-code-btn {
+.code-admin-actions {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.code-edit-btn {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
   background: rgba(99, 102, 241, 0.15);
-  border: 1px solid rgba(99, 102, 241, 0.4);
+  border: 1px solid rgba(99, 102, 241, 0.35);
   color: #a5b4fc;
-  padding: 10px 18px;
+  padding: 9px 15px;
   border-radius: 10px;
-  font-size: 0.92rem;
+  font-size: 0.88rem;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.2s ease;
 }
 
-.edit-code-btn:hover {
+.code-edit-btn:hover {
   background: rgba(99, 102, 241, 0.25);
   color: #fff;
 }
 
-.edit-code-btn svg {
-  width: 17px;
-  height: 17px;
+.code-edit-btn svg {
+  width: 15px;
+  height: 15px;
 }
 
-.code-content-wrapper {
-  position: relative;
-  background: #090d16;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 14px;
-  overflow: hidden;
-}
-
-.code-lang-tag {
-  position: absolute;
-  top: 14px;
-  right: 18px;
-  display: inline-flex;
+.code-delete-btn {
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.2);
+  color: #f87171;
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  display: flex;
   align-items: center;
-  gap: 6px;
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  padding: 4px 12px;
-  border-radius: 999px;
-  font-size: 0.8rem;
-  font-weight: 600;
-  color: #94a3b8;
-  user-select: none;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
 }
 
-.lang-dot {
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: #10b981;
+.code-delete-btn:hover {
+  background: rgba(239, 68, 68, 0.25);
+  color: #fff;
 }
 
-.code-pre {
-  margin: 0;
-  padding: 24px 22px;
-  overflow-x: auto;
-  user-select: text;
-}
-
-.code-block {
-  font-family: 'Consolas', 'Courier New', monospace;
-  font-size: 0.96rem;
-  line-height: 1.65;
-  color: #e2e8f0;
+.code-delete-btn svg {
+  width: 16px;
+  height: 16px;
 }
 
 .code-modal {
