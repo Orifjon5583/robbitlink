@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RobbitLink | O'quvchilar uchun Havolalar Portali</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Orqa fon nurlari -->
+  <div class="bg-glow bg-glow-1"></div>
+  <div class="bg-glow bg-glow-2"></div>
+
+  <!-- Header -->
+  <header class="header">
+    <div class="container nav-container">
+      <div class="brand">
+        <span class="brand-icon">⚡</span>
+        <div class="brand-text">
+          <h1>Robbit<span>Link</span></h1>
+          <p>Foydali havolalar va onlayn resurslar</p>
+        </div>
+      </div>
+      <button class="add-btn" id="openModalBtn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <line x1="12" y1="5" x2="12" y2="19"></line>
+          <line x1="5" y1="12" x2="19" y2="12"></line>
+        </svg>
+        <span>Yangi havola qo'shish</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Asosiy Qism -->
+  <main class="main-content">
+    <div class="container">
+      
+      <!-- Qidiruv va Filtrlash -->
+      <section class="controls-section">
+        <div class="search-box">
+          <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+          <input type="text" id="searchInput" placeholder="Havolalarni qidirish (nomi, tavsifi yoki sayt)...">
+          <button class="clear-btn" id="clearSearchBtn" style="display: none;">✕</button>
+        </div>
+
+        <div class="categories" id="categoryTabs">
+          <button class="cat-pill active" data-category="all">Barchasi</button>
+          <button class="cat-pill" data-category="dasturlash">Dasturlash</button>
+          <button class="cat-pill" data-category="onlayn-muhit">Onlayn Muhitlar</button>
+          <button class="cat-pill" data-category="foydali">Foydali Saytlar</button>
+        </div>
+      </section>
+
+      <!-- Havolalar Ro'yxati / Grid -->
+      <section class="links-section">
+        <div class="links-header">
+          <span class="links-count" id="linksCount">Jami: 0 ta havola</span>
+          <span class="links-hint">💡 Havola ustiga bosib saytga to'g'ridan-to'g'ri o'ting</span>
+        </div>
+
+        <div class="links-grid" id="linksGrid">
+          <!-- JS orqali kartochkalar yaratiladi -->
+        </div>
+
+        <!-- Havola topilmasa -->
+        <div class="empty-state" id="emptyState" style="display: none;">
+          <span class="empty-icon">🔍</span>
+          <h3>Hech qanday havola topilmadi</h3>
+          <p>Boshqa so'z bilan qidirib ko'ring yoki yangi havola qo'shing.</p>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <!-- Yangi Havola Qo'shish Modali -->
+  <div class="modal-overlay" id="modalOverlay">
+    <div class="modal">
+      <div class="modal-header">
+        <h3>🔗 Yangi havola qo'shish</h3>
+        <button class="modal-close" id="closeModalBtn">&times;</button>
+      </div>
+
+      <form id="addLinkForm" class="modal-form">
+        <div class="form-group">
+          <label for="linkTitle">Sayt yoki Havola nomi *</label>
+          <input type="text" id="linkTitle" required placeholder="Masalan: Python Turtle Sandbox">
+        </div>
+
+        <div class="form-group">
+          <label for="linkUrl">Sayt manzili (URL) *</label>
+          <input type="url" id="linkUrl" required placeholder="https://pythonsandbox.com/turtle">
+        </div>
+
+        <div class="form-group">
+          <label for="linkDesc">Qisqacha tavsif</label>
+          <input type="text" id="linkDesc" placeholder="Masalan: Brauzerda Python kodlarini chizish muhiti">
+        </div>
+
+        <div class="form-row">
+          <div class="form-group flex-1">
+            <label for="linkCategory">Kategoriya</label>
+            <select id="linkCategory">
+              <option value="dasturlash">Dasturlash</option>
+              <option value="onlayn-muhit">Onlayn Muhit</option>
+              <option value="foydali">Foydali Sayt</option>
+            </select>
+          </div>
+          <div class="form-group flex-1">
+            <label for="linkIcon">Belgi (Emoji)</label>
+            <select id="linkIcon">
+              <option value="🐢">🐢 Toshbaqa</option>
+              <option value="💻">💻 Kompyuter</option>
+              <option value="🚀">🚀 Raketa</option>
+              <option value="🌐">🌐 Internet</option>
+              <option value="📚">📚 Kitob</option>
+              <option value="🎨">🎨 Dizayn</option>
+              <option value="⚡">⚡ Tezkor</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="modal-actions">
+          <button type="button" class="btn-secondary" id="cancelModalBtn">Bekor qilish</button>
+          <button type="submit" class="btn-primary">Saqlash va Chiqarish</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container footer-content">
+      <p>RobbitLink &bull; O'quvchilar uchun saralangan ta'limiy havolalar to'plami</p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
