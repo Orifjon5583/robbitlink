@@ -63,6 +63,58 @@
         </div>
       </section>
 
+      <!-- O'qituvchi tomonidan yuklangan Kod qismi (O'quvchilar faqat nusxa ola oladi, o'zgartira olmaydi) -->
+      <section class="shared-code-section" id="sharedCodeSection">
+        <div class="code-box-card">
+          <div class="code-header">
+            <div class="code-title-wrap">
+              <div class="code-icon-badge">
+                <i data-lucide="code-2"></i>
+              </div>
+              <div>
+                <h3 id="codeTitleDisplay">🐍 Dars Kodi & Vazifa</h3>
+                <p id="codeDescDisplay">O'qituvchi tomonidan taqdim etilgan kod. Ko'chirib oling va Sandbox'da ishga tushiring!</p>
+              </div>
+            </div>
+
+            <div class="code-actions">
+              <button class="copy-code-btn" id="copySharedCodeBtn" title="Kodni nusxalash">
+                <i data-lucide="copy" id="copyIcon"></i>
+                <span id="copyBtnText">Kodni nusxalash</span>
+              </button>
+              
+              <!-- Faqat Admin ko'radigan va o'zgartira oladigan tugma -->
+              <button class="edit-code-btn" id="editCodeBtn" style="display: none;" title="Kodni tahrirlash (Faqat O'qituvchi)">
+                <i data-lucide="edit-3"></i>
+                <span>Kodni o'zgartirish</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Kod ko'rinishi (o'quvchilar o'zgartira olmaydi - read-only) -->
+          <div class="code-content-wrapper">
+            <div class="code-lang-tag">
+              <span class="lang-dot"></span>
+              <span id="codeLangLabel">Python</span>
+            </div>
+            <pre class="code-pre"><code id="codeTextDisplay" class="code-block"># Python Turtle namunasi
+import turtle
+
+t = turtle.Turtle()
+t.shape("turtle")
+t.color("forestgreen")
+t.speed(3)
+
+# Yulduzcha chizish
+for _ in range(5):
+    t.forward(120)
+    t.right(144)
+
+turtle.done()</code></pre>
+          </div>
+        </div>
+      </section>
+
       <!-- Havolalar Ro'yxati / Grid -->
       <section class="links-section">
         <div class="links-header">
@@ -185,6 +237,58 @@
           <button type="submit" class="btn-primary">
             <i data-lucide="unlock"></i>
             <span>Kirish va Ruxsat olish</span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Kod Yuklash / Tahrirlash Modali (Faqat O'qituvchi / Admin) -->
+  <div class="modal-overlay" id="editCodeModalOverlay">
+    <div class="modal code-modal">
+      <div class="modal-header">
+        <div class="modal-title-wrap">
+          <i data-lucide="file-code-2" class="modal-icon code-modal-icon"></i>
+          <h3>Dars Kodini Yuklash / Tahrirlash</h3>
+        </div>
+        <button class="modal-close" id="closeEditCodeModalBtn">
+          <i data-lucide="x"></i>
+        </button>
+      </div>
+
+      <form id="editCodeForm" class="modal-form">
+        <div class="form-group">
+          <label for="codeTitleInput">Dars yoki vazifa nomi *</label>
+          <input type="text" id="codeTitleInput" required placeholder="Masalan: Python Turtle: Yulduzcha chizish">
+        </div>
+
+        <div class="form-row">
+          <div class="form-group flex-1">
+            <label for="codeLangSelect">Dasturlash tili</label>
+            <select id="codeLangSelect">
+              <option value="Python">Python</option>
+              <option value="JavaScript">JavaScript</option>
+              <option value="HTML/CSS">HTML / CSS</option>
+              <option value="C++">C++</option>
+              <option value="Boshqa">Boshqa</option>
+            </select>
+          </div>
+          <div class="form-group flex-1">
+            <label for="codeDescInput">Qisqa izoh</label>
+            <input type="text" id="codeDescInput" placeholder="Masalan: Kodni nusxalab Sandbox'da tekshiring">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="codeTextarea">Kod matni *</label>
+          <textarea id="codeTextarea" rows="10" required placeholder="Kodni bu yerga yozing yoki tashlang..."></textarea>
+        </div>
+
+        <div class="modal-actions">
+          <button type="button" class="btn-secondary" id="cancelEditCodeModalBtn">Bekor qilish</button>
+          <button type="submit" class="btn-primary">
+            <i data-lucide="save"></i>
+            <span>Saqlash va O'quvchilarga Yuklash</span>
           </button>
         </div>
       </form>

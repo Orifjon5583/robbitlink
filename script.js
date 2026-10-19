@@ -34,10 +34,17 @@ const defaultLinks = [
   }
 ];
 
-// O'qituvchi (Admin) Paroli
-// Standart parol: '1234'. O'qituvchi xohlasa localStorage orqali o'zgartirishi mumkin
+// ----------------- PAROL SOZLAMALARI ----------------- //
+// Yangi maxfiy parol: 7896
+const DEFAULT_ADMIN_PASSWORD = '7896';
+
+// Agar eski 1234 paroli qolib ketgan bo'lsa uni avtomatik 7896 ga yangilash
+if (localStorage.getItem('robbit_admin_pwd') === '1234') {
+  localStorage.setItem('robbit_admin_pwd', '7896');
+}
+
 function getAdminPassword() {
-  return localStorage.getItem('robbit_admin_pwd') || '1234';
+  return localStorage.getItem('robbit_admin_pwd') || DEFAULT_ADMIN_PASSWORD;
 }
 
 // Boshlang'ich holatlar
@@ -81,17 +88,16 @@ const clearSearchBtn = document.getElementById('clearSearchBtn');
 const categoryTabs = document.getElementById('categoryTabs');
 const emptyState = document.getElementById('emptyState');
 
-// Havola qo'shish modali elementlari
+// Havola qo'shish modali
 const openModalBtn = document.getElementById('openModalBtn');
 const closeModalBtn = document.getElementById('closeModalBtn');
 const cancelModalBtn = document.getElementById('cancelModalBtn');
 const modalOverlay = document.getElementById('modalOverlay');
 const addLinkForm = document.getElementById('addLinkForm');
 
-// Admin Parol modali elementlari
+// Admin Parol modali
 const adminToggleBtn = document.getElementById('adminToggleBtn');
 const adminBtnText = document.getElementById('adminBtnText');
-const adminIcon = document.getElementById('adminIcon');
 const authModalOverlay = document.getElementById('authModalOverlay');
 const authForm = document.getElementById('authForm');
 const closeAuthModalBtn = document.getElementById('closeAuthModalBtn');
@@ -100,7 +106,154 @@ const adminPasswordInput = document.getElementById('adminPasswordInput');
 const authErrorMsg = document.getElementById('authErrorMsg');
 const togglePasswordVisibilityBtn = document.getElementById('togglePasswordVisibilityBtn');
 
-// Lucide icon html generatsiyasi
+// Kod qismi (Shared Code) elementlari
+const codeTitleDisplay = document.getElementById('codeTitleDisplay');
+const codeDescDisplay = document.getElementById('codeDescDisplay');
+const codeLangLabel = document.getElementById('codeLangLabel');
+const codeTextDisplay = document.getElementById('codeTextDisplay');
+const copySharedCodeBtn = document.getElementById('copySharedCodeBtn');
+const copyBtnText = document.getElementById('copyBtnText');
+const editCodeBtn = document.getElementById('editCodeBtn');
+
+// Kod tahrirlash modali
+const editCodeModalOverlay = document.getElementById('editCodeModalOverlay');
+const editCodeForm = document.getElementById('editCodeForm');
+const closeEditCodeModalBtn = document.getElementById('closeEditCodeModalBtn');
+const cancelEditCodeModalBtn = document.getElementById('cancelEditCodeModalBtn');
+const codeTitleInput = document.getElementById('codeTitleInput');
+const codeLangSelect = document.getElementById('codeLangSelect');
+const codeDescInput = document.getElementById('codeDescInput');
+const codeTextarea = document.getElementById('codeTextarea');
+
+// ----------------- O'QITUVCHI DARSI KODI (SHARED CODE) ----------------- //
+const defaultSharedCode = {
+  title: "🐍 Python Turtle: Yulduzcha chizish",
+  desc: "O'qituvchi tomonidan taqdim etilgan kod. Ko'chirib oling va Sandbox'da ishga tushiring!",
+  lang: "Python",
+  code: `# Python Turtle namunasi
+import turtle
+
+t = turtle.Turtle()
+t.shape("turtle")
+t.color("forestgreen")
+t.speed(3)
+
+# Yulduzcha chizish
+for _ in range(5):
+    t.forward(120)
+    t.right(144)
+
+turtle.done()`
+};
+
+function loadSharedCode() {
+  const stored = localStorage.getItem('robbit_shared_code');
+  if (stored) {
+    try {
+      return JSON.parse(stored);
+    } catch (e) {
+      console.error('Kod yuklashda xatolik:', e);
+    }
+  }
+  return defaultSharedCode;
+}
+
+function saveSharedCode(codeData) {
+  localStorage.setItem('robbit_shared_code', JSON.stringify(codeData));
+}
+
+// Kodni sahifada ko'rsatish (o'quvchilar faqat ko'radi va nusxalaydi)
+function renderSharedCode() {
+  const data = loadSharedCode();
+  if (codeTitleDisplay) codeTitleDisplay.textContent = data.title || "🐍 Dars Kodi";
+  if (codeDescDisplay) codeDescDisplay.textContent = data.desc || "O'qituvchi kodi";
+  if (codeLangLabel) codeLangLabel.textContent = data.lang || "Python";
+  if (codeTextDisplay) codeTextDisplay.textContent = data.code || "# Kod mavjud emas";
+
+  // Kodni o'zgartirish tugmasi FAQAT admin rejimida ko'rinadi!
+  if (editCodeBtn) {
+    editCodeBtn.style.display = isAdmin ? 'inline-flex' : 'none';
+  }
+  refreshLucide();
+}
+
+// Kodni nusxalash tugmasi (O'quvchilar uchun)
+if (copySharedCodeBtn) {
+  copySharedCodeBtn.addEventListener('click', async () => {
+    const code = codeTextDisplay.textContent;
+    try {
+      await navigator.clipboard.writeText(code);
+      const originalText = copyBtnText.textContent;
+      copyBtnText.textContent = "Nusxa olindi! ✅";
+      copySharedCodeBtn.style.background = "#059669";
+      
+      setTimeout(() => {
+        copyBtnText.textContent = originalText;
+        copySharedCodeBtn.style.background = "";
+      }, 2000);
+    } catch (err) {
+      console.error("Nusxa olishda xatolik:", err);
+    }
+  });
+}
+
+// Kodni tahrirlash (Faqat O'qituvchi / Admin)
+if (editCodeBtn) {
+  editCodeBtn.addEventListener('click', () => {
+    if (!isAdmin) {
+      openAuthModal();
+      return;
+    }
+    const currentData = loadSharedCode();
+    codeTitleInput.value = currentData.title || '';
+    codeLangSelect.value = currentData.lang || 'Python';
+    codeDescInput.value = currentData.desc || '';
+    codeTextarea.value = currentData.code || '';
+    
+    editCodeModalOverlay.classList.add('active');
+    codeTextarea.focus();
+    refreshLucide();
+  });
+}
+
+function closeEditCodeModal() {
+  editCodeModalOverlay.classList.remove('active');
+  editCodeForm.reset();
+}
+
+if (closeEditCodeModalBtn) closeEditCodeModalBtn.addEventListener('click', closeEditCodeModal);
+if (cancelEditCodeModalBtn) cancelEditCodeModalBtn.addEventListener('click', closeEditCodeModal);
+if (editCodeModalOverlay) {
+  editCodeModalOverlay.addEventListener('click', (e) => {
+    if (e.target === editCodeModalOverlay) closeEditCodeModal();
+  });
+}
+
+// Yangi kodni saqlash formasi
+if (editCodeForm) {
+  editCodeForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    if (!isAdmin) {
+      alert("Faqat o'qituvchi kodni o'zgartira oladi!");
+      closeEditCodeModal();
+      return;
+    }
+
+    const updatedData = {
+      title: codeTitleInput.value.trim(),
+      lang: codeLangSelect.value,
+      desc: codeDescInput.value.trim(),
+      code: codeTextarea.value
+    };
+
+    saveSharedCode(updatedData);
+    closeEditCodeModal();
+    renderSharedCode();
+  });
+}
+
+// ----------------- ADMIN UI & HOLAT ----------------- //
+
 function renderIconHtml(iconName) {
   if (!iconName) return `<i data-lucide="globe"></i>`;
   const isEmoji = /\p{Extended_Pictographic}/u.test(iconName);
@@ -110,11 +263,9 @@ function renderIconHtml(iconName) {
   return `<i data-lucide="${iconName}"></i>`;
 }
 
-// Admin UI holatini yangilash
 function updateAdminUI() {
   if (isAdmin) {
     adminToggleBtn.classList.add('admin-unlocked');
-    adminBtnText.textContent = "Admin (Chiqish)";
     adminToggleBtn.innerHTML = `
       <i data-lucide="unlock"></i>
       <span>Admin (Chiqish)</span>
@@ -128,6 +279,7 @@ function updateAdminUI() {
     `;
     adminToggleBtn.title = "O'qituvchi (Admin) rejimi uchun bosing";
   }
+  renderSharedCode();
   refreshLucide();
 }
 
@@ -238,9 +390,8 @@ function escapeHtml(str) {
   })[m]);
 }
 
-// ----------------- PAROL & ADMIN TIZIMI ----------------- //
+// ----------------- PAROL & AUTH TIZIMI ----------------- //
 
-// Parol so'rash modalini ochish
 function openAuthModal(action = null, payload = null) {
   pendingAction = action;
   pendingDeleteId = payload;
@@ -259,7 +410,6 @@ function closeAuthModal() {
   pendingDeleteId = null;
 }
 
-// Admin tugmasi bosilganda
 adminToggleBtn.addEventListener('click', () => {
   if (isAdmin) {
     if (confirm("Admin rejimidan chiqmoqchimisiz?")) {
@@ -273,7 +423,6 @@ adminToggleBtn.addEventListener('click', () => {
   }
 });
 
-// Parol tekshirish
 authForm.addEventListener('submit', (e) => {
   e.preventDefault();
   const enteredPassword = adminPasswordInput.value.trim();
@@ -295,7 +444,7 @@ authForm.addEventListener('submit', (e) => {
       deleteLink(deleteId);
     }
   } else {
-    authErrorMsg.style.display = 'block';
+    authErrorMsg.style.display = 'flex';
     adminPasswordInput.focus();
     adminPasswordInput.select();
   }
@@ -319,13 +468,10 @@ togglePasswordVisibilityBtn.addEventListener('click', () => {
 
 // ----------------- HAVOLA QO'SHISH & O'CHIRISH ----------------- //
 
-// Havola qo'shish tugmasi
 openModalBtn.addEventListener('click', () => {
   if (!isAdmin) {
-    // Parol so'raladi
     openAuthModal('add');
   } else {
-    // Admin allaqachon tasdiqlangan
     openAddModal();
   }
 });
@@ -347,7 +493,6 @@ modalOverlay.addEventListener('click', (e) => {
   if (e.target === modalOverlay) closeAddModal();
 });
 
-// Yangi havola qo'shish formasi
 addLinkForm.addEventListener('submit', (e) => {
   e.preventDefault();
   
@@ -383,7 +528,6 @@ addLinkForm.addEventListener('submit', (e) => {
   renderLinks();
 });
 
-// Havolani o'chirish (faqat admin)
 window.deleteLink = function(id) {
   if (!isAdmin) {
     openAuthModal('delete', id);
@@ -424,3 +568,4 @@ categoryTabs.addEventListener('click', (e) => {
 // Dastlabki ishga tushirish
 updateAdminUI();
 renderLinks();
+renderSharedCode();
