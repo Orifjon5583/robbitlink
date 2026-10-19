@@ -28,10 +28,16 @@
           <p>Foydali havolalar va onlayn resurslar</p>
         </div>
       </div>
-      <button class="add-btn" id="openModalBtn">
-        <i data-lucide="plus"></i>
-        <span>Yangi havola qo'shish</span>
-      </button>
+      <div class="header-actions">
+        <button class="admin-badge-btn" id="adminToggleBtn" title="O'qituvchi / Admin rejimi">
+          <i data-lucide="lock" id="adminIcon"></i>
+          <span id="adminBtnText">O'qituvchi</span>
+        </button>
+        <button class="add-btn" id="openModalBtn">
+          <i data-lucide="plus"></i>
+          <span>Yangi havola</span>
+        </button>
+      </div>
     </div>
   </header>
 
@@ -137,6 +143,48 @@
           <button type="submit" class="btn-primary">
             <i data-lucide="check"></i>
             <span>Saqlash va Chiqarish</span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Maxfiy Parol So'rash Modali (Admin Auth Modal) -->
+  <div class="modal-overlay" id="authModalOverlay">
+    <div class="modal auth-modal">
+      <div class="modal-header">
+        <div class="modal-title-wrap">
+          <i data-lucide="shield-check" class="modal-icon auth-shield-icon"></i>
+          <h3>O'qituvchi Paroli</h3>
+        </div>
+        <button class="modal-close" id="closeAuthModalBtn">
+          <i data-lucide="x"></i>
+        </button>
+      </div>
+
+      <form id="authForm" class="modal-form">
+        <p class="auth-notice">
+          🔒 Havolalarni qo'shish va o'chirish faqat o'qituvchi (admin) ruxsati bilan amalga oshiriladi.
+        </p>
+
+        <div class="form-group">
+          <label for="adminPasswordInput">Maxfiy parolni kiriting *</label>
+          <div class="password-input-wrapper">
+            <input type="password" id="adminPasswordInput" required placeholder="Parol..." autocomplete="current-password">
+            <button type="button" class="toggle-password-btn" id="togglePasswordVisibilityBtn" title="Parolni ko'rsatish/yashirish">
+              <i data-lucide="eye" id="eyeIcon"></i>
+            </button>
+          </div>
+          <div class="auth-error-msg" id="authErrorMsg" style="display: none;">
+            ⚠️ Noto'g'ri parol kiritildi! Qaytadan urinib ko'ring.
+          </div>
+        </div>
+
+        <div class="modal-actions">
+          <button type="button" class="btn-secondary" id="cancelAuthModalBtn">Bekor qilish</button>
+          <button type="submit" class="btn-primary">
+            <i data-lucide="unlock"></i>
+            <span>Kirish va Ruxsat olish</span>
           </button>
         </div>
       </form>
