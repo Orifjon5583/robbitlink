@@ -87,7 +87,6 @@ body {
 }
 
 .brand-icon {
-  font-size: 2rem;
   background: linear-gradient(135deg, rgba(99, 102, 241, 0.2), rgba(16, 185, 129, 0.2));
   border: 1px solid rgba(99, 102, 241, 0.3);
   width: 52px;
@@ -96,6 +95,12 @@ body {
   align-items: center;
   justify-content: center;
   border-radius: 14px;
+}
+
+.brand-icon svg {
+  width: 28px;
+  height: 28px;
+  color: #818cf8;
 }
 
 .brand-text h1 {
@@ -276,16 +281,25 @@ body {
 }
 
 .link-card-icon {
-  font-size: 2.2rem;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  width: 54px;
-  height: 54px;
+  background: rgba(99, 102, 241, 0.1);
+  border: 1px solid rgba(99, 102, 241, 0.2);
+  width: 52px;
+  height: 52px;
   display: flex;
   align-items: center;
   justify-content: center;
   border-radius: 14px;
   flex-shrink: 0;
+}
+
+.link-card-icon svg {
+  width: 26px;
+  height: 26px;
+  color: #818cf8;
+}
+
+.link-card-icon .emoji-icon {
+  font-size: 1.8rem;
 }
 
 .link-card-info {
@@ -346,6 +360,12 @@ body {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+.link-domain svg, .domain-icon {
+  width: 14px;
+  height: 14px;
+  color: #64748b;
 }
 
 .link-actions {
@@ -470,6 +490,18 @@ body {
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }
 
+.modal-title-wrap {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.modal-icon {
+  width: 22px;
+  height: 22px;
+  color: #818cf8;
+}
+
 .modal-header h3 {
   font-size: 1.25rem;
   font-weight: 700;
@@ -479,12 +511,22 @@ body {
   background: none;
   border: none;
   color: var(--text-muted);
-  font-size: 1.8rem;
   cursor: pointer;
-  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+}
+
+.modal-close svg {
+  width: 20px;
+  height: 20px;
 }
 
 .modal-close:hover {
+  background: rgba(255, 255, 255, 0.1);
   color: #fff;
 }
 
@@ -553,6 +595,10 @@ input:focus, select:focus {
 }
 
 .btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
   background: #6366f1;
   border: none;
   color: #fff;
@@ -561,6 +607,12 @@ input:focus, select:focus {
   font-weight: 600;
   cursor: pointer;
   box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+  transition: all 0.2s ease;
+}
+
+.btn-primary svg {
+  width: 18px;
+  height: 18px;
 }
 
 .btn-primary:hover {

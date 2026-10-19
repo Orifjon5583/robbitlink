@@ -1,4 +1,4 @@
-// Boshlang'ich havolalar ro'yxati (Default Links)
+// Boshlang'ich havolalar ro'yxati (Default Links) - Lucide Icons bilan
 const defaultLinks = [
   {
     id: 'link-1',
@@ -6,7 +6,7 @@ const defaultLinks = [
     url: 'https://pythonsandbox.com/turtle',
     desc: 'Brauzerning o\'zida Python Turtle kodlarini yozish va shakllar chizish onlayn maydoni.',
     category: 'onlayn-muhit',
-    icon: '🐢'
+    icon: 'terminal'
   },
   {
     id: 'link-2',
@@ -14,7 +14,7 @@ const defaultLinks = [
     url: 'https://scratch.mit.edu',
     desc: 'Blokli dasturlash orqali animatsiyalar va o\'yinlar yaratish platformasi.',
     category: 'dasturlash',
-    icon: '🐱'
+    icon: 'gamepad-2'
   },
   {
     id: 'link-3',
@@ -22,7 +22,7 @@ const defaultLinks = [
     url: 'https://www.w3schools.com',
     desc: 'HTML, CSS, JavaScript va Python bo\'yicha qulay interaktiv qo\'llanmalar.',
     category: 'foydali',
-    icon: '📚'
+    icon: 'book-open'
   },
   {
     id: 'link-4',
@@ -30,7 +30,7 @@ const defaultLinks = [
     url: 'https://replit.com',
     desc: 'Ko\'plab dasturlash tillarida onlayn kod yozish va loyihalar yaratish muhiti.',
     category: 'onlayn-muhit',
-    icon: '💻'
+    icon: 'laptop'
   }
 ];
 
@@ -39,7 +39,15 @@ function loadLinks() {
   const stored = localStorage.getItem('robbit_links');
   if (stored) {
     try {
-      return JSON.parse(stored);
+      const parsed = JSON.parse(stored);
+      // Agar eski emojili default bo'lsa yangilash
+      return parsed.map(item => {
+        if (item.id === 'link-1' && item.icon === '🐢') item.icon = 'terminal';
+        if (item.id === 'link-2' && item.icon === '🐱') item.icon = 'gamepad-2';
+        if (item.id === 'link-3' && item.icon === '📚') item.icon = 'book-open';
+        if (item.id === 'link-4' && item.icon === '💻') item.icon = 'laptop';
+        return item;
+      });
     } catch (e) {
       console.error('Xatolik:', e);
     }
@@ -70,6 +78,16 @@ const cancelModalBtn = document.getElementById('cancelModalBtn');
 const modalOverlay = document.getElementById('modalOverlay');
 const addLinkForm = document.getElementById('addLinkForm');
 
+// Lucide icon yoki emoji ko'rsatish
+function renderIconHtml(iconName) {
+  if (!iconName) return `<i data-lucide="globe"></i>`;
+  const isEmoji = /\p{Extended_Pictographic}/u.test(iconName);
+  if (isEmoji) {
+    return `<span class="emoji-icon">${iconName}</span>`;
+  }
+  return `<i data-lucide="${iconName}"></i>`;
+}
+
 // Havolalarni ekranga chiqarish
 function renderLinks() {
   const filtered = links.filter(item => {
@@ -88,13 +106,13 @@ function renderLinks() {
   if (filtered.length === 0) {
     linksGrid.innerHTML = '';
     emptyState.style.display = 'block';
+    refreshLucide();
     return;
   }
 
   emptyState.style.display = 'none';
 
   linksGrid.innerHTML = filtered.map(item => {
-    // URL dan domenni ajratib olish (e.g. pythonsandbox.com)
     let domain = '';
     try {
       domain = new URL(item.url).hostname;
@@ -108,17 +126,20 @@ function renderLinks() {
     return `
       <div class="link-card" data-id="${item.id}">
         <div class="link-card-top">
-          <div class="link-card-icon">${item.icon || '🔗'}</div>
+          <div class="link-card-icon">
+            ${renderIconHtml(item.icon)}
+          </div>
           <div class="link-card-info">
             <span class="link-category-badge ${badgeClass}">${categoryName}</span>
             <h3 class="link-card-title" title="${escapeHtml(item.title)}">${escapeHtml(item.title)}</h3>
           </div>
         </div>
 
-        <p class="link-card-desc">${escapeHtml(item.desc || 'Tavsif mavjud emas.')}</p>
+        <p class="link-card-desc">${escapeHtml(item.desc || 'Tavsif kiritilmagan.')}</p>
 
         <div class="link-domain">
-          <span>🌐</span> ${domain}
+          <i data-lucide="globe" class="domain-icon"></i>
+          <span>${domain}</span>
         </div>
 
         <div class="link-actions">
@@ -129,22 +150,23 @@ function renderLinks() {
             class="link-visit-btn"
           >
             <span>Saytga kirish</span>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
-              <polyline points="15 3 21 3 21 9"></polyline>
-              <line x1="10" y1="14" x2="21" y2="3"></line>
-            </svg>
+            <i data-lucide="external-link"></i>
           </a>
           <button class="link-delete-btn" title="Havolani o'chirish" onclick="deleteLink('${item.id}')">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <polyline points="3 6 5 6 21 6"></polyline>
-              <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
-            </svg>
+            <i data-lucide="trash-2"></i>
           </button>
         </div>
       </div>
     `;
   }).join('');
+
+  refreshLucide();
+}
+
+function refreshLucide() {
+  if (window.lucide && typeof window.lucide.createIcons === 'function') {
+    window.lucide.createIcons();
+  }
 }
 
 function getCategoryName(cat) {
@@ -179,8 +201,9 @@ window.deleteLink = function(id) {
 // Qidiruv
 searchInput.addEventListener('input', (e) => {
   searchQuery = e.target.value;
-  clearSearchBtn.style.display = searchQuery ? 'block' : 'none';
+  clearSearchBtn.style.display = searchQuery ? 'flex' : 'none';
   renderLinks();
+  refreshLucide();
 });
 
 clearSearchBtn.addEventListener('click', () => {
@@ -188,6 +211,7 @@ clearSearchBtn.addEventListener('click', () => {
   searchQuery = '';
   clearSearchBtn.style.display = 'none';
   renderLinks();
+  refreshLucide();
 });
 
 // Kategoriya tanlash
@@ -204,6 +228,7 @@ categoryTabs.addEventListener('click', (e) => {
 function openModal() {
   modalOverlay.classList.add('active');
   document.getElementById('linkTitle').focus();
+  refreshLucide();
 }
 
 function closeModal() {
@@ -250,3 +275,4 @@ addLinkForm.addEventListener('submit', (e) => {
 
 // Boshlang'ich yuklash
 renderLinks();
+refreshLucide();

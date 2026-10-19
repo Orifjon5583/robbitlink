@@ -8,6 +8,8 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
+  <!-- Lucide Icons Library -->
+  <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 <body>
   <!-- Orqa fon nurlari -->
@@ -18,17 +20,16 @@
   <header class="header">
     <div class="container nav-container">
       <div class="brand">
-        <span class="brand-icon">⚡</span>
+        <span class="brand-icon">
+          <i data-lucide="link-2"></i>
+        </span>
         <div class="brand-text">
           <h1>Robbit<span>Link</span></h1>
           <p>Foydali havolalar va onlayn resurslar</p>
         </div>
       </div>
       <button class="add-btn" id="openModalBtn">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-          <line x1="12" y1="5" x2="12" y2="19"></line>
-          <line x1="5" y1="12" x2="19" y2="12"></line>
-        </svg>
+        <i data-lucide="plus"></i>
         <span>Yangi havola qo'shish</span>
       </button>
     </div>
@@ -41,12 +42,11 @@
       <!-- Qidiruv va Filtrlash -->
       <section class="controls-section">
         <div class="search-box">
-          <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <circle cx="11" cy="11" r="8"></circle>
-            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-          </svg>
+          <i data-lucide="search" class="search-icon"></i>
           <input type="text" id="searchInput" placeholder="Havolalarni qidirish (nomi, tavsifi yoki sayt)...">
-          <button class="clear-btn" id="clearSearchBtn" style="display: none;">✕</button>
+          <button class="clear-btn" id="clearSearchBtn" style="display: none;">
+            <i data-lucide="x"></i>
+          </button>
         </div>
 
         <div class="categories" id="categoryTabs">
@@ -83,8 +83,13 @@
   <div class="modal-overlay" id="modalOverlay">
     <div class="modal">
       <div class="modal-header">
-        <h3>🔗 Yangi havola qo'shish</h3>
-        <button class="modal-close" id="closeModalBtn">&times;</button>
+        <div class="modal-title-wrap">
+          <i data-lucide="plus-circle" class="modal-icon"></i>
+          <h3>Yangi havola qo'shish</h3>
+        </div>
+        <button class="modal-close" id="closeModalBtn">
+          <i data-lucide="x"></i>
+        </button>
       </div>
 
       <form id="addLinkForm" class="modal-form">
@@ -113,22 +118,26 @@
             </select>
           </div>
           <div class="form-group flex-1">
-            <label for="linkIcon">Belgi (Emoji)</label>
+            <label for="linkIcon">Lucide belgisi (Icon)</label>
             <select id="linkIcon">
-              <option value="🐢">🐢 Toshbaqa</option>
-              <option value="💻">💻 Kompyuter</option>
-              <option value="🚀">🚀 Raketa</option>
-              <option value="🌐">🌐 Internet</option>
-              <option value="📚">📚 Kitob</option>
-              <option value="🎨">🎨 Dizayn</option>
-              <option value="⚡">⚡ Tezkor</option>
+              <option value="code-2">Code (Dasturlash)</option>
+              <option value="terminal">Terminal (Muhit)</option>
+              <option value="globe">Globe (Veb-sayt)</option>
+              <option value="book-open">Book (Kitob / Darslik)</option>
+              <option value="sparkles">Sparkles (Maxsus)</option>
+              <option value="laptop">Laptop (Kompyuter)</option>
+              <option value="gamepad-2">Gamepad (O'yin)</option>
+              <option value="cpu">CPU (Texnologiya)</option>
             </select>
           </div>
         </div>
 
         <div class="modal-actions">
           <button type="button" class="btn-secondary" id="cancelModalBtn">Bekor qilish</button>
-          <button type="submit" class="btn-primary">Saqlash va Chiqarish</button>
+          <button type="submit" class="btn-primary">
+            <i data-lucide="check"></i>
+            <span>Saqlash va Chiqarish</span>
+          </button>
         </div>
       </form>
     </div>
